@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push && next build",
+    "build:dev": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "build:netlify": "npm run db:generate && npm run build",
