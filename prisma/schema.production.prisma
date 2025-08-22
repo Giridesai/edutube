@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  password          String
+  name              String?
+  avatar            String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  playlists         Playlist[]
+  videoInteractions VideoInteraction[]
+  watchHistory      WatchHistory[]
+  subscriptions     Subscription[]
+}
+
+model Video {
+  id               String             @id
+  title            String
+  description      String?
+  thumbnailUrl     String
+  duration         String
+  publishedAt      DateTime
+  channelId        String
+  channelTitle     String
+  viewCount        BigInt?
+  likeCount        BigInt?
+  commentCount     BigInt?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  playlists        PlaylistVideo[]
+  interactions     VideoInteraction[]
+  summaries        VideoSummary[]
+  watchHistory     WatchHistory[]
+  channel          Channel            @relation(fields: [channelId], references: [id])
+
+  @@index([channelId])
+}
+
+model Channel {
+  id              String         @id
+  title           String
+  description     String?
+  thumbnailUrl    String?
+  subscriberCount BigInt?
+  videoCount      BigInt?
+  viewCount       BigInt?
+  publishedAt     DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  videos          Video[]
+  subscriptions   Subscription[]
+}
+
+model Playlist {
+  id          String          @id @default(cuid())
+  title       String
+  description String?
+  isPublic    Boolean         @default(false)
+  userId      String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  videos      PlaylistVideo[]
+
+  @@index([userId])
+}
+
+model PlaylistVideo {
+  id         String   @id @default(cuid())
+  playlistId String
+  videoId    String
+  position   Int
+  addedAt    DateTime @default(now())
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, videoId])
+  @@index([playlistId])
+  @@index([videoId])
+}
+
+model VideoInteraction {
+  id        String            @id @default(cuid())
+  userId    String
+  videoId   String
+  type      InteractionType
+  createdAt DateTime          @default(now())
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video     Video             @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId, type])
+  @@index([userId])
+  @@index([videoId])
+}
+
+model WatchHistory {
+  id          String   @id @default(cuid())
+  userId      String
+  videoId     String
+  watchedAt   DateTime @default(now())
+  watchTime   Int      @default(0)
+  totalTime   Int      @default(0)
+  completed   Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video       Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([videoId])
+  @@index([watchedAt])
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String
+  channelId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId])
+  @@index([userId])
+  @@index([channelId])
+}
+
+model VideoSummary {
+  id        String           @id @default(cuid())
+  videoId   String
+  content   String           @db.Text
+  type      SummaryType      @default(AUTO)
+  provider  String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  video     Video            @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([videoId])
+}
+
+model Cache {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([expiresAt])
+}
+
+enum InteractionType {
+  LIKE
+  DISLIKE
+  FAVORITE
+  WATCH_LATER
+}
+
+enum SummaryType {
+  AUTO
+  MANUAL
+  AI_GENERATED
+}

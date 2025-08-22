@@ -27,7 +27,10 @@
     "apikeys:reset": "node scripts/manage-api-keys.js reset",
     "apikeys:monitor": "node scripts/manage-api-keys.js monitor",
     "apikeys:recommend": "node scripts/manage-api-keys.js recommend",
-    "apikeys:all": "node scripts/manage-api-keys.js all"
+    "apikeys:all": "node scripts/manage-api-keys.js all",
+    "db:test": "node scripts/test-database.js",
+    "db:test-with-sample": "node scripts/test-database.js --create-sample",
+    "db:seed-production": "node scripts/test-database.js seed"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
