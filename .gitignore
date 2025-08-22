@@ -1,0 +1,37 @@
+node_modules
+.next
+.env
+.env.local
+.env.development
+.env.production
+.env.test.local
+.env.development.local
+.env.production.local
+dist
+coverage
+out
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+dev.db
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Logs
+*.log
+logs
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+/generated/prisma

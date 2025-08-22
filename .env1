@@ -1,0 +1,164 @@
+# =============================================================================
+# EDUTUBE ENVIRONMENT CONFIGURATION WITH MULTIPLE API KEYS
+# =============================================================================
+# This configuration supports multiple API keys for load balancing
+# Copy this to .env and configure your actual API keys
+
+# Database Configuration
+DATABASE_URL="file:./dev.db"
+
+# =============================================================================
+# YOUTUBE API KEYS (Multiple keys for load balancing)
+# =============================================================================
+# Primary YouTube API Key
+YOUTUBE_API_KEY_1="AIzaSyC7ks-GptBlJCo6Zknnvrs1Cb2xzQb5B0g"
+
+# Secondary YouTube API Keys for load balancing
+#YOUTUBE_API_KEY_2="your_youtube_api_key_2_here"
+#YOUTUBE_API_KEY_3="your_youtube_api_key_3_here"
+#YOUTUBE_API_KEY_4="your_youtube_api_key_4_here"
+#YOUTUBE_API_KEY_5="your_youtube_api_key_5_here"
+
+YOUTUBE_API_KEY2="AIzaSyC7ks-GptBlJCo6Zknnvrs1Cb2xzQb5B0g"
+YOUTUBE_API_KEY3="AIzaSyBlI9KIsSGkIN8VrrxOhPOpaIClTOgJOdE"
+YOUTUBE_API_KEY4="AIzaSyBbWOKAN8_DmBSzU7_76Acs5fBIGtbYvSs"
+YOUTUBE_API_KEY5="AIzaSyAsSk2goOf32q1ixGya_rP1jRIc4-1VrHY"
+YOUTUBE_API_KEY6="AIzaSyDLtyOvI_U7W7apGjBxLSz4693RSUlU7Ws"
+YOUTUBE_API_KEY7="AIzaSyBJZoh1JWXbA4CImUE-WN56y0efB-deELI"
+YOUTUBE_API_KEY8="AIzaSyDBalGZ-AFUiEW-jvjTIG1SVezcWVN13fI"
+
+# Fallback API Keys (if needed)
+#YOUTUBE_API_KEY_6="your_youtube_api_key_6_here"
+#YOUTUBE_API_KEY_7="your_youtube_api_key_7_here"
+#YOUTUBE_API_KEY_8="your_youtube_api_key_8_here"
+
+# Legacy single API key (kept for backwards compatibility)
+YOUTUBE_API_KEY="AIzaSyDLtyOvI_U7W7apGjBxLSz4693RSUlU7Ws"
+
+# API Key rotation settings
+YOUTUBE_API_ROTATION_ENABLED=true
+YOUTUBE_API_QUOTA_PER_KEY=10000
+YOUTUBE_API_RATE_LIMIT_PER_KEY=100
+
+# =============================================================================
+# GOOGLE AI API KEYS (Multiple keys for AI services)
+# =============================================================================
+# Primary Google AI API Key
+#GOOGLE_API_KEY_1="your_google_ai_key_1_here"
+GOOGLE_API_KEY_1="AIzaSyAsSk2goOf32q1ixGya_rP1jRIc4-1VrHY"
+
+# Secondary Google AI API Keys
+#GOOGLE_API_KEY_2="your_google_ai_key_2_here"
+#GOOGLE_API_KEY_3="your_google_ai_key_3_here"
+
+# Legacy single Google AI key
+GOOGLE_API_KEY="AIzaSyAsSk2goOf32q1ixGya_rP1jRIc4-1VrHY"
+
+
+# Google AI Model Configuration
+GOOGLE_AI_MODEL="gemini-1.5-flash"
+
+# =============================================================================
+# CHATGPT OSS CONFIGURATION
+# =============================================================================
+# ChatGPT OSS (Ollama/local or hosted)
+CHATGPT_OSS_API_URL="http://localhost:11434/v1/chat/completions"
+CHATGPT_OSS_API_KEY=""
+CHATGPT_OSS_MODEL="chatgpt-oss-120b"
+
+# Alternative ChatGPT OSS endpoints
+CHATGPT_OSS_API_URL_2="http://localhost:11434/v1/chat/completions"
+CHATGPT_OSS_API_KEY_2=""
+
+# =============================================================================
+# AUTHENTICATION & SECURITY
+# =============================================================================
+# Next.js Authentication
+NEXTAUTH_URL="http://localhost:3001"
+NEXTAUTH_SECRET="your_nextauth_secret_here_please_change_this_in_production_make_it_long_and_random"
+
+# =============================================================================
+# API RATE LIMITING & LOAD BALANCING CONFIGURATION
+# =============================================================================
+# Enable distributed load balancing across API keys
+ENABLE_API_LOAD_BALANCING=true
+
+# Maximum requests per minute per API key
+MAX_REQUESTS_PER_MINUTE_PER_KEY=100
+
+# Maximum daily quota per API key
+MAX_DAILY_QUOTA_PER_KEY=10000
+
+# Failover settings
+ENABLE_API_FAILOVER=true
+API_FAILURE_RETRY_COUNT=3
+API_FAILURE_COOLDOWN_MINUTES=5
+
+# =============================================================================
+# MONITORING & LOGGING
+# =============================================================================
+# Enable API usage monitoring
+ENABLE_API_MONITORING=true
+
+# Log API key usage rotation
+LOG_API_KEY_ROTATION=true
+
+# Monitor quota usage across all keys
+MONITOR_QUOTA_USAGE=true
+
+# =============================================================================
+# DEVELOPMENT & TESTING
+# =============================================================================
+# Development mode settings
+NODE_ENV="development"
+
+# Enable debug logging
+DEBUG_API_CALLS=false
+DEBUG_QUOTA_USAGE=false
+DEBUG_RATE_LIMITING=false
+
+# Test mode (uses lower quotas for testing)
+TEST_MODE=false
+TEST_MODE_QUOTA_LIMIT=100
+
+# =============================================================================
+# CACHE CONFIGURATION
+# =============================================================================
+# Cache settings for better performance
+ENABLE_REDIS_CACHE=false
+REDIS_URL=""
+
+# Memory cache settings
+MEMORY_CACHE_TTL_SECONDS=300
+DATABASE_CACHE_TTL_SECONDS=1800
+
+# =============================================================================
+# BACKUP & RECOVERY
+# =============================================================================
+# Database backup settings
+AUTO_BACKUP_ENABLED=false
+BACKUP_INTERVAL_HOURS=24
+BACKUP_RETENTION_DAYS=7
+
+# =============================================================================
+# EXAMPLE CONFIGURATION (Remove # to use actual keys)
+# =============================================================================
+# Example with real API key structure:
+# YOUTUBE_API_KEY_1="AIzaSyC7ks-GptBlJCo6Zknnvrs1Cb2xzQb5B0g"
+# YOUTUBE_API_KEY_2="AIzaSyBlI9KIsSGkIN8VrrxOhPOpaIClTOgJOdE"
+# YOUTUBE_API_KEY_3="AIzaSyBbWOKAN8_DmBSzU7_76Acs5fBIGtbYvSs"
+# YOUTUBE_API_KEY_4="AIzaSyAsSk2goOf32q1ixGya_rP1jRIc4-1VrHY"
+# YOUTUBE_API_KEY_5="AIzaSyDLtyOvI_U7W7apGjBxLSz4693RSUlU7Ws"
+
+# GOOGLE_API_KEY_1="AIzaSyBHMsMHzpzzCfxJ-tNDF9ZfrQ5xwIdfbyQ"
+# GOOGLE_API_KEY_2="AIzaSyAsSk2goOf32q1ixGya_rP1jRIc4-1VrHY"
+
+# =============================================================================
+# NOTES
+# =============================================================================
+# 1. Replace all placeholder values with your actual API keys
+# 2. Keep your API keys secure and never commit them to version control
+# 3. Use different API keys for development, staging, and production
+# 4. Monitor your quota usage across all keys
+# 5. Set up alerts for quota limits
+# 6. Consider using environment-specific .env files (.env.development, .env.production)

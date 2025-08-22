@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  password          String
+  name              String?
+  avatar            String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  playlists         Playlist[]
+  videoInteractions VideoInteraction[]
+  watchHistory      WatchHistory[]
+  subscriptions     Subscription[]
+
+  @@map("users")
+}
+
+model Educator {
+  id          String         @id @default(cuid())
+  name        String
+  handle      String?        @unique
+  avatarUrl   String?
+  channelId   String?        @unique
+  description String?
+  verified    Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  videos      Video[]
+  subscriptions Subscription[]
+
+  @@map("educators")
+}
+
+model Video {
+  id                  String             @id
+  title               String
+  description         String?
+  thumbnailUrl        String?
+  channelThumbnailUrl String?
+  duration            Int?
+  publishedAt         DateTime?
+  channelTitle        String?
+  categoryId          String?
+  tags                String
+  viewCount           Int?
+  likeCount           Int?
+  summary             String?
+  keyPoints           String
+  difficulty          String?
+  subject             String?
+  educatorId          String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  chapters            Chapter[]
+  playlists           PlaylistVideo[]
+  interactions        VideoInteraction[]
+  educator            Educator?          @relation(fields: [educatorId], references: [id])
+  watchHistory        WatchHistory[]
+
+  @@map("videos")
+}
+
+model Chapter {
+  id        String @id @default(cuid())
+  videoId   String
+  title     String
+  startTime Int
+  endTime   Int?
+  video     Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@map("chapters")
+}
+
+model WatchHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  videoId   String
+  watchedAt DateTime @default(now())
+  watchTime Int      @default(0)
+  completed Boolean  @default(false)
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId])
+  @@map("watch_history")
+}
+
+model Playlist {
+  id          String          @id @default(cuid())
+  title       String
+  description String?
+  userId      String
+  isPublic    Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  videos      PlaylistVideo[]
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("playlists")
+}
+
+model PlaylistVideo {
+  id         String   @id @default(cuid())
+  playlistId String
+  videoId    String
+  order      Int
+  addedAt    DateTime @default(now())
+  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, videoId])
+  @@map("playlist_videos")
+}
+
+model VideoInteraction {
+  id        String   @id @default(cuid())
+  userId    String
+  videoId   String
+  type      String
+  createdAt DateTime @default(now())
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId, type])
+  @@map("video_interactions")
+}
+
+model Cache {
+  key          String   @id
+  data         String
+  expiresAt    DateTime
+  tags         String?
+  createdAt    DateTime @default(now())
+  accessCount  Int      @default(0)
+  lastAccessed DateTime @default(now())
+
+  @@index([expiresAt])
+  @@index([tags])
+  @@map("cache")
+}
+
+model Subscription {
+  id           String   @id @default(cuid())
+  userId       String
+  educatorId   String
+  subscribedAt DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  educator     Educator @relation(fields: [educatorId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, educatorId])
+  @@map("subscriptions")
+}
