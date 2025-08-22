@@ -98,9 +98,13 @@ DATABASE_URL="mysql://xxxxx:pscale_pw_xxxxx@xxxxx.us-east-1.psdb.cloud/edutube?s
 - Use `npx prisma db push` to sync schema with PlanetScale
 - Check that `relationMode = "prisma"` is in your schema
 
-## PlanetScale Free Tier Limits:
-- **Storage**: 5 GB
-- **Reads**: 1 billion/month  
-- **Writes**: 10 million/month
-- **Branches**: 1 development branch
-- **Perfect for most applications!**
+## PlanetScale Pricing (Updated):
+- **⚠️ No Free Tier**: PlanetScale discontinued their free tier
+- **Hobby Plan**: $29/month minimum
+- **Not recommended for learning/development projects**
+
+## ✅ Free Alternatives (Recommended):
+- **Supabase** - PostgreSQL with 500MB free
+- **Railway** - PostgreSQL/MySQL with $5 free credit  
+- **Neon** - PostgreSQL with 3GB free
+- **Turso** - SQLite-compatible with generous free tier

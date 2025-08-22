@@ -3,9 +3,11 @@
 ## ✅ Pre-Deployment Checklist
 
 ### 1. Database Setup (REQUIRED)
-- [ ] Choose production database: PlanetScale (MySQL) or Supabase (PostgreSQL)
-- [ ] Create database and get connection string
-- [ ] Update Prisma schema provider if needed (see docs/PRODUCTION_DATABASE.md)
+- [ ] Choose production database: **Supabase (PostgreSQL) - FREE** or Railway
+- [ ] Create database and get connection string  
+- [ ] Update Prisma schema provider if needed (see docs/SUPABASE_SETUP.md)
+
+**Recommended: Use Supabase** - Free 500MB PostgreSQL database, perfect for learning and small projects!
 
 ### 2. Environment Variables Setup
 Copy these to Netlify Dashboard → Site Settings → Environment Variables:
